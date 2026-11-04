@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import static android.os.SystemClock.sleep;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,8 +15,9 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
+@Disabled
 @TeleOp(name = "nonScat")
-public class NonScat extends OpMode {
+public class noUse extends OpMode {
 
     DcMotor IDKman;
     NormalizedColorSensor coulor1;

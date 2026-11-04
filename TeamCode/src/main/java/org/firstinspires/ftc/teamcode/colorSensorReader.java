@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -13,8 +14,8 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 public class colorSensorReader extends OpMode {
 
     DcMotorEx IDKman;
-    NormalizedColorSensor color1;
-    NormalizedColorSensor color2;
+    RevColorSensorV3 color1;
+    RevColorSensorV3 color2;
 
     float hue1;
     double hue2;
@@ -25,8 +26,8 @@ public class colorSensorReader extends OpMode {
     public void init() {
 
         IDKman = hardwareMap.get(DcMotorEx.class, "motor");
-        color1 = hardwareMap.get(NormalizedColorSensor.class, "Color1");
-        color2 = hardwareMap.get(NormalizedColorSensor.class, "Color2");
+        color1 = hardwareMap.get(RevColorSensorV3.class, "Color1");
+        color2 = hardwareMap.get(RevColorSensorV3.class, "Color2");
         IDKman.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
