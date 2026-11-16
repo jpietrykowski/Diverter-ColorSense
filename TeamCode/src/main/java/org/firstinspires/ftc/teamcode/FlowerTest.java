@@ -53,7 +53,7 @@ public class FlowerTest extends OpMode {
             intake.setDirection(DcMotorSimple.Direction.REVERSE);
             aluminum.setDirection(DcMotorSimple.Direction.REVERSE);
             flower.setDirection(DcMotorSimple.Direction.FORWARD);
-            intakePower = Math.min(1, Math.max(-1, intakePower));
+            intakePower = Math.min(1, Math.max(0, intakePower));
             intake.setPower(intakePower);
             aluminum.setPower(intakePower);
             flower.setPower(intakePower);
@@ -61,7 +61,7 @@ public class FlowerTest extends OpMode {
             intake.setDirection(DcMotorSimple.Direction.FORWARD);
             aluminum.setDirection(DcMotorSimple.Direction.FORWARD);
             flower.setDirection(DcMotorSimple.Direction.REVERSE);
-            intakePower = Math.min(1, Math.max(-1, intakePower));
+            intakePower = Math.min(1, Math.max(0, intakePower));
             intake.setPower(intakePower);
             aluminum.setPower(intakePower);
             flower.setPower(intakePower);
@@ -69,7 +69,7 @@ public class FlowerTest extends OpMode {
             intake.setDirection(DcMotorSimple.Direction.REVERSE);
             aluminum.setDirection(DcMotorSimple.Direction.FORWARD);
             flower.setDirection(DcMotorSimple.Direction.REVERSE);
-            intakePower = Math.min(1, Math.max(-1, intakePower));
+            intakePower = Math.min(1, Math.max(0, intakePower));
             intake.setPower(intakePower);
             aluminum.setPower(intakePower);
             flower.setPower(intakePower);

@@ -21,6 +21,11 @@ public class diverterTest extends OpMode {
     private RevColorSensorV3 leftSensor;
     private RevColorSensorV3 rightSensor;
 
+    FancyButton a;
+    FancyButton b;
+    FancyButton x;
+
+
 
     DcMotorEx diverter;
     DcMotorEx intake;
@@ -61,12 +66,21 @@ public class diverterTest extends OpMode {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         diverter.setDirection(DcMotorSimple.Direction.REVERSE);
         time = new ElapsedTime();
+
+        a = new FancyButton(FancyButton.PressType.LongPress);
+        b = new FancyButton(FancyButton.PressType.LongPress);
+        x = new FancyButton(FancyButton.PressType.LongPress);
+
     }
 
     @Override
     public void loop() {
 
         intake.setPower(0.75);
+
+        a.checkStatus(gamepad1.a);
+        b.checkStatus(gamepad1.b);
+        x.checkStatus(gamepad1.x);
 
 
         NormalizedRGBA rgba1 = leftSensor.getNormalizedColors();
@@ -82,7 +96,7 @@ public class diverterTest extends OpMode {
             color = col2;
         }
         boolean isNoBallInside = dist1 + dist2 > 4.0;
-        telemetry.addData("is_there_no_ball_inside", isNoBallInside);
+        telemetry.addData("is there no ball inside", isNoBallInside);
 
         if (time.milliseconds() > 300){
             if (isNoBallInside) {
@@ -98,11 +112,11 @@ public class diverterTest extends OpMode {
 
 
 
-        if (gamepad1.a) {
+        if (a.isOn) {
             color = BallColor.pollen;
-        } else if (gamepad1.b) {
+        } else if (b.isOn) {
             color = BallColor.red;
-        } else if (gamepad1.x) {
+        } else if (x.isOn) {
             color = BallColor.blue;
         }
 
