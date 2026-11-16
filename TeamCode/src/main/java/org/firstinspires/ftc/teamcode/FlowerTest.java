@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-
 @TeleOp
 public class FlowerTest extends OpMode {
 
@@ -17,9 +16,7 @@ public class FlowerTest extends OpMode {
     FancyButton shooterOut;
     FancyButton speedUp;
     FancyButton speedDown;
-
-
-
+    FancyButton inAndUp;
 
     double intakePower = 0.25;
 
@@ -41,6 +38,7 @@ public class FlowerTest extends OpMode {
         shooterOut = new FancyButton(FancyButton.PressType.Toggle);
         speedUp = new FancyButton(FancyButton.PressType.LongPress);
         speedDown = new FancyButton(FancyButton.PressType.LongPress);
+        inAndUp = new FancyButton(FancyButton.PressType.Toggle);
     }
 
     public void loop(){
@@ -49,11 +47,13 @@ public class FlowerTest extends OpMode {
         shooterIn.checkStatus(gamepad1.a);
         speedUp.checkStatus(gamepad1.dpad_up);
         speedDown.checkStatus(gamepad1.dpad_down);
+        inAndUp.checkStatus(gamepad1.x);
 
         if(shooterOut.isOn) {
             intake.setDirection(DcMotorSimple.Direction.REVERSE);
             aluminum.setDirection(DcMotorSimple.Direction.REVERSE);
             flower.setDirection(DcMotorSimple.Direction.FORWARD);
+            intakePower = Math.min(1, Math.max(-1, intakePower));
             intake.setPower(intakePower);
             aluminum.setPower(intakePower);
             flower.setPower(intakePower);
@@ -61,6 +61,15 @@ public class FlowerTest extends OpMode {
             intake.setDirection(DcMotorSimple.Direction.FORWARD);
             aluminum.setDirection(DcMotorSimple.Direction.FORWARD);
             flower.setDirection(DcMotorSimple.Direction.REVERSE);
+            intakePower = Math.min(1, Math.max(-1, intakePower));
+            intake.setPower(intakePower);
+            aluminum.setPower(intakePower);
+            flower.setPower(intakePower);
+        } else if (inAndUp.isOn) {
+            intake.setDirection(DcMotorSimple.Direction.REVERSE);
+            aluminum.setDirection(DcMotorSimple.Direction.FORWARD);
+            flower.setDirection(DcMotorSimple.Direction.REVERSE);
+            intakePower = Math.min(1, Math.max(-1, intakePower));
             intake.setPower(intakePower);
             aluminum.setPower(intakePower);
             flower.setPower(intakePower);
@@ -71,14 +80,16 @@ public class FlowerTest extends OpMode {
         }
 
         if (speedUp.isOn) {
-            intakePower += 0.001;
+            intakePower += 0.01;
         } else if (speedDown.isOn) {
-            intakePower -= 0.001;
+            intakePower -= 0.01;
         }
 
         telemetry.addData("intake speed", intake.getPower() * 100);
         telemetry.addData("diverter speed", aluminum.getPower() * 100);
         telemetry.addData("flower speed", flower.getPower() * 100);
+        telemetry.addData("intake power", intakePower);
+
 
     }
 

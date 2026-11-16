@@ -66,7 +66,7 @@ public class diverterTest extends OpMode {
     @Override
     public void loop() {
 
-        intake.setPower(0.5);
+        intake.setPower(0.75);
 
 
         NormalizedRGBA rgba1 = leftSensor.getNormalizedColors();
@@ -81,11 +81,11 @@ public class diverterTest extends OpMode {
         if (dist2 < dist1) {
             color = col2;
         }
-        boolean isBallInside = dist1 > 1.2 && dist2 > 1.2;
-        telemetry.addData("is_there_no_ball_inside", isBallInside);
+        boolean isNoBallInside = dist1 + dist2 > 4.0;
+        telemetry.addData("is_there_no_ball_inside", isNoBallInside);
 
         if (time.milliseconds() > 300){
-            if (isBallInside) {
+            if (isNoBallInside) {
                 diverter.setPower(-0.5);
             } else if (color == BallColor.pollen) {
                 time.reset();
