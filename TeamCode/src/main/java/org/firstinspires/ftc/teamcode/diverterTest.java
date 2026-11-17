@@ -11,11 +11,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.concurrent.TimeUnit;
+
 @TeleOp(name = "Diverter Test")
 public class diverterTest extends OpMode {
 
     public enum BallColor {
-        pollen, blue, red;
+        pollen, blue, red, none;
     }
 
     private RevColorSensorV3 leftSensor;
@@ -24,13 +26,13 @@ public class diverterTest extends OpMode {
     FancyButton a;
     FancyButton b;
     FancyButton x;
-
+    FancyButton ball;
 
 
     DcMotorEx diverter;
     DcMotorEx intake;
     ElapsedTime time;
-
+    boolean kill;
 
     public BallColor col(NormalizedRGBA rgba){
         double normal = rgba.alpha;
@@ -50,10 +52,14 @@ public class diverterTest extends OpMode {
             color = BallColor.pollen;
         } else if (red > green && red > blue) {
             color = BallColor.red;
-        } else {
+        }else {
             color = BallColor.blue;
         }
         return color;
+
+
+
+
     }
 
     @Override
@@ -70,11 +76,13 @@ public class diverterTest extends OpMode {
         a = new FancyButton(FancyButton.PressType.LongPress);
         b = new FancyButton(FancyButton.PressType.LongPress);
         x = new FancyButton(FancyButton.PressType.LongPress);
-
+        ball = new FancyButton(FancyButton.PressType.LongPress);
+        kill = false;
     }
 
     @Override
     public void loop() {
+
 
         intake.setPower(0.75);
 
@@ -95,11 +103,19 @@ public class diverterTest extends OpMode {
         if (dist2 < dist1) {
             color = col2;
         }
-        boolean isNoBallInside = dist1 + dist2 > 4.0;
+        boolean isNoBallInside = dist1 > 1.9 && dist2 > 1.9;
         telemetry.addData("is there no ball inside", isNoBallInside);
 
-        if (time.milliseconds() > 300){
-            if (isNoBallInside) {
+        ball.checkStatus(!isNoBallInside);
+
+        if(ball.isOn && ball.time.time(TimeUnit.SECONDS) > .25){
+            diverter.setPower(0);
+            intake.setPower(0);
+            kill = true;
+        }
+
+        if (!kill && time.milliseconds() > 300){
+            if (color == BallColor.none) {
                 diverter.setPower(-0.5);
             } else if (color == BallColor.pollen) {
                 time.reset();
